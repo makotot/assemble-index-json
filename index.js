@@ -11,7 +11,10 @@ module.exports = function (params, cb) {
 
   var file = './index.json';
 
-  console.log(pages)
+//  console.log(pages)
+  _.each(pages, function (page) {
+    console.log(page.dest);
+  });
   cb();
 //  console.log(params.context.page)
 
@@ -19,4 +22,8 @@ module.exports = function (params, cb) {
 //    cb();
 //  });
 
+};
+
+module.exports.options = {
+  stage: 'render:pre:pages'
 };
