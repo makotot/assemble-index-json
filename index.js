@@ -1,6 +1,8 @@
 var _ = require('lodash'),
   jsonfile = require('jsonfile');
 
+var path = require('path');
+
 jsonfile.spaces = 2;
 
 module.exports = function (params, cb) {
@@ -11,17 +13,14 @@ module.exports = function (params, cb) {
 
   var file = './index.json';
 
-//  console.log(pages)
+  console.log(assemble.options)
   _.each(pages, function (page) {
-    console.log(page.dest);
+    var pathList = (page.dest).split(path.sep);
+
+    console.log(_.without(pathList, pathList[0]));
   });
+
   cb();
-//  console.log(params.context.page)
-
-//  jsonfile.writeFile(file, params.context.page, function () {
-//    cb();
-//  });
-
 };
 
 module.exports.options = {

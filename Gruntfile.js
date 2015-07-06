@@ -29,7 +29,8 @@ module.exports = function (grunt) {
         plugins: [
           './index.js'
         ],
-        prettify: {
+        index: {
+          root: '<%= path.env %>'
         }
       },
       all: {
