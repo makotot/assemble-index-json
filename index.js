@@ -39,6 +39,7 @@ module.exports = function (params, cb) {
     if (err) {
       throw err;
     }
+
     cb();
   });
 };
