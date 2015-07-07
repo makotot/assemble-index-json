@@ -6,8 +6,7 @@ var path = require('path');
 
 module.exports = function (params, cb) {
 
-  var assemble = params.assemble,
-    assembleOpts = assemble.options,
+  var assembleOpts = params.assemble.options,
     pages = assembleOpts.pages,
     availables = assembleOpts.indexJson.availables,
     index = [];
