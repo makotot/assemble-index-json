@@ -20,8 +20,6 @@ module.exports = function (params, cb) {
       var dataAvailable = page.data[available];
 
       availableStore[available] = dataAvailable ? dataAvailable : '';
-
-//      data.push(availableStore);
     });
 
     index.push({
