@@ -1,7 +1,7 @@
 {
   "name": "assemble-index-json",
   "version": "0.0.1",
-  "description": "assemble index generator",
+  "description": "index generator for assemble",
   "main": "index.js",
   "scripts": {
     "test": "grunt assemble"
