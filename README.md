@@ -24,6 +24,20 @@ assemble: {
 
 ## options
 
+```
+assemble: {
+  options: {
+    plugins: ['assemble-index-json'],
+    indexJson: {
+      jsonPath: './index.json',
+      availables: [
+        'title'
+      ]
+    }
+  }
+}
+```
+
 ### jsonPath
 
 Path to a json is generated from this plugin.
