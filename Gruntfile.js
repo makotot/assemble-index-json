@@ -29,8 +29,13 @@ module.exports = function (grunt) {
         plugins: [
           './index.js'
         ],
-        index: {
-          root: '<%= path.env %>'
+        indexJson: {
+          root: '<%= path.env %>',
+          jsonPath: '<%= path.env %>/index.json',
+          availables: [
+            'title',
+            'url'
+          ]
         }
       },
       all: {

@@ -3,26 +3,51 @@ var _ = require('lodash'),
 
 var path = require('path');
 
-jsonfile.spaces = 2;
 
 module.exports = function (params, cb) {
 
+  var index = [];
+
   var assemble = params.assemble,
-    grunt = params.grunt,
-    pages = assemble.options.pages;
+    assembleOpts = assemble.options,
+    pages = assembleOpts.pages;
 
-  var file = './index.json';
+  var availables = assembleOpts.indexJson.availables;
 
-  console.log(assemble.options)
   _.each(pages, function (page) {
     var pathList = (page.dest).split(path.sep);
 
-    console.log(_.without(pathList, pathList[0]));
+    var filePath = _.drop(pathList);
+
+    var data = [];
+
+    _.each(availables, function (available) {
+      var dataAvailable = page.data[available];
+      var availableStore = {};
+
+      availableStore[available] = dataAvailable ? dataAvailable : '';
+      data.push(availableStore);
+    });
+
+    index.push({
+      dest: filePath.join('/'),
+      data: data
+    });
   });
 
-  cb();
+  if (!assembleOpts.indexJson.jsonPath) {
+    throw new Error('Json path is not defined!');
+  }
+
+  jsonfile.writeFile(path.resolve(assembleOpts.indexJson.jsonPath), index, {spaces: 2}, function (err) {
+    if (err) {
+      throw err;
+    }
+    cb();
+  });
 };
 
 module.exports.options = {
   stage: 'render:pre:pages'
 };
+
