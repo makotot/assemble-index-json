@@ -6,26 +6,23 @@ var path = require('path');
 
 module.exports = function (params, cb) {
 
-  var index = [];
-
   var assemble = params.assemble,
     assembleOpts = assemble.options,
-    pages = assembleOpts.pages;
-
-  var availables = assembleOpts.indexJson.availables;
+    pages = assembleOpts.pages,
+    availables = assembleOpts.indexJson.availables,
+    index = [];
 
   _.each(pages, function (page) {
-    var pathList = (page.dest).split(path.sep);
-
-    var filePath = _.drop(pathList);
-
-    var data = [];
+    var pathList = (page.dest).split(path.sep),
+      filePath = _.drop(pathList),
+      data = [];
 
     _.each(availables, function (available) {
-      var dataAvailable = page.data[available];
-      var availableStore = {};
+      var dataAvailable = page.data[available],
+        availableStore = {};
 
       availableStore[available] = dataAvailable ? dataAvailable : '';
+
       data.push(availableStore);
     });
 
