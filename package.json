@@ -21,7 +21,7 @@
     "jsonfile": "^2.2.1",
     "lodash": "^3.10.0"
   },
-  "keyword": [
+  "keywords": [
     "assemble",
     "plugin"
   ]
