@@ -4,7 +4,7 @@
   "description": "assemble index generator",
   "main": "index.js",
   "scripts": {
-    "test": ""
+    "test": "grunt assemble"
   },
   "author": "makotot",
   "license": "MIT",
