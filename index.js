@@ -14,20 +14,19 @@ module.exports = function (params, cb) {
   _.each(pages, function (page) {
     var pathList = (page.dest).split(path.sep),
       filePath = _.drop(pathList),
-      data = [];
+      availableStore = {};
 
     _.each(availables, function (available) {
-      var dataAvailable = page.data[available],
-        availableStore = {};
+      var dataAvailable = page.data[available];
 
       availableStore[available] = dataAvailable ? dataAvailable : '';
 
-      data.push(availableStore);
+//      data.push(availableStore);
     });
 
     index.push({
       dest: filePath.join('/'),
-      data: data
+      data: availableStore
     });
   });
 
