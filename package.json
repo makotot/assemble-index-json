@@ -27,6 +27,7 @@
   },
   "keywords": [
     "assemble",
-    "plugin"
+    "plugin",
+    "static site"
   ]
 }
