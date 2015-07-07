@@ -48,6 +48,6 @@ module.exports = function (params, cb) {
 };
 
 module.exports.options = {
-  stage: 'render:pre:pages'
+  stage: 'render:post:pages'
 };
 
