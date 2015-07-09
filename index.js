@@ -1,5 +1,7 @@
 var _ = require('lodash'),
-  jsonfile = require('jsonfile');
+  jsonfile = require('jsonfile'),
+  minimatch = require('minimatch'),
+  fsUtil = require('fs-utils');
 
 var path = require('path');
 
@@ -16,16 +18,26 @@ module.exports = function (params, cb) {
       filePath = _.drop(pathList),
       availableStore = {};
 
-    _.each(availables, function (available) {
-      var dataAvailable = page.data[available];
+    var filtered;
 
-      availableStore[available] = dataAvailable ? dataAvailable : '';
+    _.each(assembleOpts.indexJson.excludes, function (exclude) {
+      if (!minimatch(page.src, fsUtil.normalizePath(exclude))) {
+        filtered = page;
+      }
     });
 
-    index.push({
-      dest: filePath.join('/'),
-      data: availableStore
-    });
+    if (filtered || !assembleOpts.indexJson.excludes.length) {
+      _.each(availables, function (available) {
+        var dataAvailable = page.data[available];
+
+        availableStore[available] = dataAvailable ? dataAvailable : '';
+      });
+
+      index.push({
+        dest: filePath.join('/'),
+        data: availableStore
+      });
+    }
   });
 
   if (!assembleOpts.indexJson.jsonPath) {

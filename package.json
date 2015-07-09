@@ -22,8 +22,10 @@
     "time-grunt": "^1.2.1"
   },
   "dependencies": {
+    "fs-utils": "^0.6.0",
     "jsonfile": "^2.2.1",
-    "lodash": "^3.10.0"
+    "lodash": "^3.10.0",
+    "minimatch": "^2.0.8"
   },
   "keywords": [
     "assemble",

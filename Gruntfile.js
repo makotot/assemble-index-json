@@ -30,6 +30,7 @@ module.exports = function (grunt) {
           './index.js'
         ],
         indexJson: {
+          excludes: ['<%= path.src %>/pages/index.hbs'],
           jsonPath: '<%= path.env %>/index.json',
           availables: [
             'title',
