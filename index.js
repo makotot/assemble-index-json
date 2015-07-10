@@ -1,34 +1,60 @@
 var _ = require('lodash'),
-  jsonfile = require('jsonfile');
+  jsonfile = require('jsonfile'),
+  minimatch = require('minimatch'),
+  fsUtil = require('fs-utils');
 
 var path = require('path');
+
+
+function setFilePath (page) {
+  var pathList = (page.dest).split(path.sep);
+
+  return (_.drop(pathList)).join('/');
+}
+
+function filterExcluded (excludes, page, done) {
+  var filtered;
+
+  _.each(excludes, function (exclude) {
+    if (!minimatch(page.src, fsUtil.normalizePath(exclude))) {
+      filtered = page;
+    }
+  });
+
+  done(filtered);
+}
 
 
 module.exports = function (params, cb) {
 
   var assembleOpts = params.assemble.options,
     pages = assembleOpts.pages,
-    availables = assembleOpts.indexJson.availables,
+    options = assembleOpts.indexJson,
     index = [];
 
   _.each(pages, function (page) {
-    var pathList = (page.dest).split(path.sep),
-      filePath = _.drop(pathList),
+    var filePath = setFilePath(page),
       availableStore = {};
 
-    _.each(availables, function (available) {
-      var dataAvailable = page.data[available];
+    filterExcluded(options.excludes, page, function (filtered) {
 
-      availableStore[available] = dataAvailable ? dataAvailable : '';
+      if (filtered || !options.excludes.length) {
+        _.each(options.availables, function (available) {
+          var dataAvailable = page.data[available];
+
+          availableStore[available] = dataAvailable ? dataAvailable : '';
+        });
+
+        index.push({
+          dest: filePath,
+          data: availableStore
+        });
+      }
     });
 
-    index.push({
-      dest: filePath.join('/'),
-      data: availableStore
-    });
   });
 
-  if (!assembleOpts.indexJson.jsonPath) {
+  if (!options.jsonPath) {
     throw new Error('Json path is not defined!');
   }
 
