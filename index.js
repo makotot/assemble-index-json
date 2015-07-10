@@ -6,41 +6,55 @@ var _ = require('lodash'),
 var path = require('path');
 
 
+function setFilePath (page) {
+  var pathList = (page.dest).split(path.sep);
+
+  return (_.drop(pathList)).join('/');
+}
+
+function filterExcluded (excludes, page, done) {
+  var filtered;
+
+  _.each(excludes, function (exclude) {
+    if (!minimatch(page.src, fsUtil.normalizePath(exclude))) {
+      filtered = page;
+    }
+  });
+
+  done(filtered);
+}
+
+
 module.exports = function (params, cb) {
 
   var assembleOpts = params.assemble.options,
     pages = assembleOpts.pages,
-    availables = assembleOpts.indexJson.availables,
+    options = assembleOpts.indexJson,
     index = [];
 
   _.each(pages, function (page) {
-    var pathList = (page.dest).split(path.sep),
-      filePath = _.drop(pathList),
+    var filePath = setFilePath(page),
       availableStore = {};
 
-    var filtered;
+    filterExcluded(options.excludes, page, function (filtered) {
 
-    _.each(assembleOpts.indexJson.excludes, function (exclude) {
-      if (!minimatch(page.src, fsUtil.normalizePath(exclude))) {
-        filtered = page;
+      if (filtered || !options.excludes.length) {
+        _.each(options.availables, function (available) {
+          var dataAvailable = page.data[available];
+
+          availableStore[available] = dataAvailable ? dataAvailable : '';
+        });
+
+        index.push({
+          dest: filePath,
+          data: availableStore
+        });
       }
     });
 
-    if (filtered || !assembleOpts.indexJson.excludes.length) {
-      _.each(availables, function (available) {
-        var dataAvailable = page.data[available];
-
-        availableStore[available] = dataAvailable ? dataAvailable : '';
-      });
-
-      index.push({
-        dest: filePath.join('/'),
-        data: availableStore
-      });
-    }
   });
 
-  if (!assembleOpts.indexJson.jsonPath) {
+  if (!options.jsonPath) {
     throw new Error('Json path is not defined!');
   }
 
