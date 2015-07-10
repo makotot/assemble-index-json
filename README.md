@@ -32,7 +32,8 @@ assemble: {
       jsonPath: './index.json',
       availables: [
         'title'
-      ]
+      ],
+      excludes: ['./src/pages/index.hbs']
     }
   }
 }
@@ -45,6 +46,10 @@ Path to a json is generated from this plugin.
 ### availables
 
 Data list that you want to retrieve from page data.
+
+### excludes
+
+Glob patterns of src files that you want to exclude from index.
 
 
 ## License
