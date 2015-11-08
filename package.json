@@ -1,6 +1,6 @@
 {
   "name": "assemble-index-json",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "index generator for assemble",
   "main": "index.js",
   "scripts": {
